@@ -174,7 +174,6 @@ ApplicationWindow {
                     implicitWidth: 100
                     implicitHeight: 50
                     radius: 4;
-                    border.width: 1
                     state: "default"
 
                     Text {
