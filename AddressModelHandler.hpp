@@ -31,6 +31,8 @@ public:
 
     Q_INVOKABLE bool isAddressValid() const;
 
+    Q_INVOKABLE bool containsValue(int _itemIndex)const;
+
     Q_INVOKABLE QString getCurrentAddress()const;
 
     Q_INVOKABLE void clearAll();

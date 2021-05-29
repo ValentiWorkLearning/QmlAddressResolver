@@ -121,6 +121,19 @@ void AddressModelHandler::clearAll()
     emit clearAllSig();
 }
 
+bool AddressModelHandler::containsValue(int _itemIndex)const
+{
+
+    auto itemIt = std::ranges::find_if(
+                m_addressRecords,
+                [_itemIndex](const auto& _item)
+                {
+                    return _item.component.has_value() && _item.component.value() == _itemIndex;
+                }
+    );
+    return itemIt != m_addressRecords.end();
+}
+
 bool AddressModelHandler::isAddressValid() const
 {
     return !canAcceptClicks();

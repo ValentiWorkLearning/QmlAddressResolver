@@ -80,9 +80,9 @@ ApplicationWindow {
                         }
                         onClicked:
                         {
-                            if(addressHandler.canAcceptClicks())
-                                addressHandler.onItemClicked(index,index);
-                            else
+                            addressHandler.onItemClicked(index,index);
+
+                            if( !addressHandler.containsValue(index) )
                                 delegateRect.state = "default";
                         }
                         onCanceled:
