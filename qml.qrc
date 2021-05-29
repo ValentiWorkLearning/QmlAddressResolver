@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml_ui/main.qml</file>
+        <file>resources/Roboto.ttf</file>
+    </qresource>
+</RCC>
