@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.5
 
 import Qt.labs.qmlmodels 1.0
-
+import AddressModelModule 1.0
 
 ApplicationWindow {
     width: 800
@@ -18,6 +18,12 @@ ApplicationWindow {
         id: roboto
         source: "qrc:/resources/Roboto.ttf"
     }
+
+    AddressModelHandler
+    {
+        id:addressHandler;
+    }
+
     ColumnLayout
     {
         anchors.fill: parent;
@@ -74,17 +80,31 @@ ApplicationWindow {
                         }
                         onClicked:
                         {
-                            if( delegateState == "checked")
-                                delegateRect.state = "default";
+                            if(addressHandler.canAcceptClicks())
+                                addressHandler.onItemClicked(index,index);
                             else
-                                delegateRect.state = "checked";
+                                delegateRect.state = "default";
                         }
                         onCanceled:
                         {
                             delegateRect.state = delegateState;
                         }
-                    }
 
+                        Connections
+                        {
+                            target: addressHandler;
+                            function onOnItemHiglhightSetRequested(itemId)
+                            {
+                                if(itemId === index)
+                                    delegateRect.state = "checked";
+                            }
+                            function onOnItemHiglhightResetRequested(itemId)
+                            {
+                                if(itemId === index)
+                                    delegateRect.state = "default";
+                            }
+                        }
+                    }
                     Text {
                         anchors.centerIn: parent;
                         text: index;
@@ -181,6 +201,41 @@ ApplicationWindow {
                 }
             }
         }
+        Row{
+            spacing: 4;
+            Button
+            {
+                id: clearAllBt
+                text: qsTr("Clear All");
+                onClicked:
+                {
+                    addressHandler.clearAll();
+                }
+            }
+            Button
+            {
+                id: addAddressBt
+                text: qsTr("Add address");
+                onClicked:
+                {
+                    console.log("Requested address add");
+                    if( addressHandler.isAddressValid())
+                    {
+                        let toAdd = addressHandler.getCurrentAddress();
+                        console.log("Address is:", toAdd);
+                    }
+                }
+            }
+            Button
+            {
+                id: findAddressButton
+                text: qsTr("Find address");
+                onClicked:
+                {
+                    console.log("Requested address find");
+                }
+            }
+        }
 
         Row
         {
@@ -195,7 +250,17 @@ ApplicationWindow {
                     focus: true
                     onEditingFinished:
                     {
+                        addressHandler.onItemEditFinished(fieldRoot.text, index)
                         console.log(fieldRoot.text, index);
+                    }
+
+                    Connections
+                    {
+                        target: addressHandler
+                        function onClearAllSig()
+                        {
+                            fieldRoot.text = "";
+                        }
                     }
                 }
             }

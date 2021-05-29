@@ -19,6 +19,8 @@ set (MAIN_TARGET AddressChecker)
 add_executable(${MAIN_TARGET}
     main.cpp
     qml.qrc
+    AddressModelHandler.hpp
+    AddressModelHandler.cpp
 )
 
 target_compile_options(

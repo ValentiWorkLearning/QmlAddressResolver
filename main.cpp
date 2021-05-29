@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QLoggingCategory>
 
+#include "AddressModelHandler.hpp"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -11,6 +13,8 @@ int main(int argc, char *argv[])
     QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.binding.removal.info=true"));
 
     QQmlApplicationEngine engine;
+
+   AddressModelHandlerNs::AddressModelHandler::registerQmlType();
 
     const QUrl url(QStringLiteral("qrc:/qml_ui/main.qml"));
     QObject::connect(
