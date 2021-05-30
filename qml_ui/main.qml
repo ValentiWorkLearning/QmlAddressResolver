@@ -158,34 +158,34 @@ ApplicationWindow {
             {
                 id:tableViewDelegate
                 Rectangle {
-                id: delegateTableItem;
-                implicitWidth: 100
-                implicitHeight: 50
-                radius: 4;
-                state: "default"
+                    id: delegateTableItem;
+                    implicitWidth: 100
+                    implicitHeight: 50
+                    radius: 4;
+                    state: "default"
 
-                Text {
-                    text: textToDisplay
-                    anchors.centerIn: parent
-                }
-
-                states:[
-                    State {
-                        name: "default"
-                        PropertyChanges {
-                            target: delegateTableItem
-                            color: "#efebe9"
-                        }
-                    },
-                    State {
-                        name: "checked"
-                        PropertyChanges {
-                            target: delegateTableItem
-                            color:"#ffab91"
-                        }
+                    Text {
+                        text: textToDisplay
+                        anchors.centerIn: parent
                     }
-                ]
-            }
+
+                    states:[
+                        State {
+                            name: "default"
+                            PropertyChanges {
+                                target: delegateTableItem
+                                color: "#efebe9"
+                            }
+                        },
+                        State {
+                            name: "checked"
+                            PropertyChanges {
+                                target: delegateTableItem
+                                color:"#ffab91"
+                            }
+                        }
+                    ]
+                }
             }
 
             TableView{
@@ -202,25 +202,25 @@ ApplicationWindow {
                 delegate:
                     DelegateChooser{
 
-                        DelegateChoice
+                    DelegateChoice
+                    {
+                        column: 0;
+                        delegate: Loader
                         {
-                            column: 0;
-                            delegate: Loader
-                            {
-                                sourceComponent: tableViewDelegate
-                                property string textToDisplay: address;
-                            }
-                        }
-                        DelegateChoice
-                        {
-                            column: 1;
-                            delegate: Loader
-                            {
-                                sourceComponent: tableViewDelegate
-                                property string textToDisplay: count;
-                            }
+                            sourceComponent: tableViewDelegate
+                            property string textToDisplay: address;
                         }
                     }
+                    DelegateChoice
+                    {
+                        column: 1;
+                        delegate: Loader
+                        {
+                            sourceComponent: tableViewDelegate
+                            property string textToDisplay: count;
+                        }
+                    }
+                }
             }
         }
         Row{
@@ -255,6 +255,7 @@ ApplicationWindow {
                 onClicked:
                 {
                     console.log("Requested address find");
+
                 }
             }
         }
@@ -289,8 +290,7 @@ ApplicationWindow {
                             }
                         }
                         function onOnItemHiglhightResetRequested(itemId,addressPosition){
-                            if(addressPosition === index)
-                            {
+                            if(addressPosition === index){
                                 fieldRoot.text = "";
                             }
                         }
