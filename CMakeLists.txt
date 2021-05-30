@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(DistanceView CXX)
+project(AddressCheckerApp CXX)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -19,10 +19,20 @@ set (MAIN_TARGET AddressChecker)
 add_executable(${MAIN_TARGET}
     main.cpp
     qml.qrc
+
     AddressModelHandler.hpp
     AddressModelHandler.cpp
+
     AddressStorage.hpp
     AddressStorage.cpp
+
+    ProcessingCore.cpp
+    ProcessingCore.hpp
+
+    WordListModel.hpp
+
+    AddressSearchProcessingController.hpp
+    AddressSearchProcessingController.cpp
 )
 
 target_compile_options(

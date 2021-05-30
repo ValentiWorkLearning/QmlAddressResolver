@@ -5,8 +5,11 @@ import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.5
 
 import Qt.labs.qmlmodels 1.0
-import AddressModelModule 1.0
-import address.storage 1.0
+
+import app.address_model 1.0
+import app.address.storage 1.0
+import app.address_processing 1.0
+import app.address_list_model 1.0
 
 ApplicationWindow {
     id: appRoot;
@@ -29,6 +32,17 @@ ApplicationWindow {
     AddressStorageModel
     {
         id: addressStorage;
+    }
+    SearchPopup
+    {
+        id:searchPopup;
+        width: parent.width / 2;
+        height: parent.height / 2;
+    }
+
+    SearchProcessingController
+    {
+        id: addressSearchingBackend;
     }
 
     ColumnLayout
@@ -256,6 +270,9 @@ ApplicationWindow {
                 {
                     console.log("Requested address find");
 
+                    addressSearchingBackend.processingAddressList = addressStorage.getAddressList();
+                    addressSearchingBackend.processingAddress = addressHandler.getAvailableAddressParts();
+                    searchPopup.open();
                 }
             }
         }

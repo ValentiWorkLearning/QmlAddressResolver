@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>qml_ui/main.qml</file>
         <file>resources/Roboto.ttf</file>
+        <file>qml_ui/SearchPopup.qml</file>
     </qresource>
 </RCC>

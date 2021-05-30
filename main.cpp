@@ -1,11 +1,13 @@
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
 #include <QLoggingCategory>
+#include <QQmlApplicationEngine>
 
 #include "AddressModelHandler.hpp"
+#include "AddressSearchProcessingController.hpp"
 #include "AddressStorage.hpp"
+#include "WordListModel.hpp"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
@@ -15,14 +17,18 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-   AddressModelHandlerNs::AddressModelHandler::registerQmlType();
-   AddressStorageNs::AddressStorageModel::registerQmlType();
+    AddressModelHandlerNs::AddressModelHandler::registerQmlType();
+    AddressStorageNs::AddressStorageModel::registerQmlType();
+
+    AddressSearchProcessingNs::WordItem::registerQmlType();
+    AddressSearchProcessingNs::SearchProcessingController::registerQmlType();
 
     const QUrl url(QStringLiteral("qrc:/qml_ui/main.qml"));
     QObject::connect(
-        &engine, &QQmlApplicationEngine::objectCreated,
-        &app, [url](QObject *obj, const QUrl &objUrl)
-        {
+        &engine,
+        &QQmlApplicationEngine::objectCreated,
+        &app,
+        [url](QObject* obj, const QUrl& objUrl) {
             if (!obj && url == objUrl)
                 QCoreApplication::exit(-1);
         },
