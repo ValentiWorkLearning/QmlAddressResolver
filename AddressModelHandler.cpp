@@ -26,7 +26,8 @@ void AddressModelHandler::setItemSelected(int _itemIndex, int _itemValue)
     firstEmpty->itemIndex = _itemIndex;
     firstEmpty->component = _itemValue;
 
-    emit onItemHiglhightSetRequested(_itemIndex);
+    std::size_t addresPosition = std::distance(m_addressRecords.begin(),firstEmpty);
+    emit onItemHiglhightSetRequested(_itemIndex,addresPosition);
 }
 
 void AddressModelHandler::setItemDeselected(int _itemIndex)
@@ -40,7 +41,8 @@ void AddressModelHandler::setItemDeselected(int _itemIndex)
     requiredNode->itemIndex.reset();
     requiredNode->component.reset();
 
-    emit onItemHiglhightResetRequested(_itemIndex);
+    std::size_t addressDistance = std::distance(m_addressRecords.begin(), requiredNode);
+    emit onItemHiglhightResetRequested(_itemIndex,addressDistance);
 }
 
 void AddressModelHandler::onItemClicked(int _itemIndex, int _itemValue)
@@ -64,8 +66,9 @@ void AddressModelHandler::onItemEditFinished(QString _itemValue,int _itemIndex)
         if( indexValueOpt.has_value())
         {
             if(const auto& itemIndexOpt = m_addressRecords.at(_itemIndex).itemIndex; itemIndexOpt.has_value())
-                emit onItemHiglhightResetRequested(itemIndexOpt.value());
-
+            {
+                emit onItemHiglhightResetRequested(itemIndexOpt.value(),_itemIndex);
+            }
              m_addressRecords.at(_itemIndex).itemIndex.reset();
              m_addressRecords.at(_itemIndex).component.reset();
 
@@ -82,7 +85,7 @@ void AddressModelHandler::onItemEditFinished(QString _itemValue,int _itemIndex)
         editableRecord.component = value;
         editableRecord.itemIndex = value;
 
-        emit onItemHiglhightSetRequested(value);
+        emit onItemHiglhightSetRequested(value,_itemIndex);
     }
 }
 

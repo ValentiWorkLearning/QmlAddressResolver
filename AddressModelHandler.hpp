@@ -44,9 +44,9 @@ public:
 public:
 
 signals:
-    void onItemHiglhightSetRequested(int _itemIndex);
+    void onItemHiglhightSetRequested(int _itemIndex, int _addressPosition);
 
-    void onItemHiglhightResetRequested(int _itemIndex);
+    void onItemHiglhightResetRequested(int _itemIndex, int _addressPosition);
 
     void clearAllSig();
 

@@ -89,13 +89,11 @@ ApplicationWindow {
                         Connections
                         {
                             target: addressHandler;
-                            function onOnItemHiglhightSetRequested(itemId)
-                            {
+                            function onOnItemHiglhightSetRequested(itemId,addressPosition) {
                                 if(itemId === index)
                                     delegateRect.state = "checked";
                             }
-                            function onOnItemHiglhightResetRequested(itemId)
-                            {
+                            function onOnItemHiglhightResetRequested(itemId,addressPosition){
                                 if(itemId === index)
                                     delegateRect.state = "default";
                             }
@@ -243,8 +241,7 @@ ApplicationWindow {
                 onClicked:
                 {
                     console.log("Requested address add");
-                    if( addressHandler.isAddressValid())
-                    {
+                    if( addressHandler.isAddressValid()){
                         let toAdd = addressHandler.getCurrentAddress();
                         addressStorage.addAddress(toAdd);
                         console.log("Address is:", toAdd);
@@ -282,9 +279,20 @@ ApplicationWindow {
                     Connections
                     {
                         target: addressHandler
-                        function onClearAllSig()
-                        {
+                        function onClearAllSig(){
                             fieldRoot.text = "";
+                        }
+
+                        function onOnItemHiglhightSetRequested(itemId,addressPosition){
+                            if(addressPosition === index){
+                                fieldRoot.text = itemId;
+                            }
+                        }
+                        function onOnItemHiglhightResetRequested(itemId,addressPosition){
+                            if(addressPosition === index)
+                            {
+                                fieldRoot.text = "";
+                            }
                         }
                     }
                 }
