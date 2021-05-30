@@ -8,6 +8,7 @@ import Qt.labs.qmlmodels 1.0
 import AddressModelModule 1.0
 
 ApplicationWindow {
+    id: appRoot;
     width: 800
     height: 680
     visible: true
@@ -30,24 +31,13 @@ ApplicationWindow {
 
         RowLayout
         {
-            Layout.fillHeight: true;
-            Layout.fillWidth: true;
-            Layout.preferredHeight: parent.height;
-            Layout.preferredWidth: parent.width;
-
-            Layout.margins: {
-                left: 10;
-                top: 10;
-                right: 10;
-                bottom: 10;
-            }
+            Layout.preferredWidth: appRoot.width;
+            Layout.preferredHeight: appRoot.height;
 
             GridView {
                 id: itemsGridView
-                Layout.preferredWidth:parent.width * 0.75;
-                Layout.preferredHeight:  parent.height * 0.8;
-                anchors.margins: 20
-
+                Layout.preferredWidth: appRoot.width * 0.6;
+                Layout.preferredHeight: appRoot.height * 0.6;
                 clip: true
 
                 model: 100
@@ -162,8 +152,10 @@ ApplicationWindow {
 
             TableView{
                 id: addressStorage
-                Layout.preferredHeight: parent.height * 0.8
-                Layout.preferredWidth: parent.width - itemsGridView.width;
+                Layout.preferredWidth: appRoot.width * 0.2;
+                Layout.preferredHeight: appRoot.height * 0.6;
+                Layout.leftMargin: 10;
+                Layout.rightMargin: 10;
                 columnSpacing: 1
                 rowSpacing: 1
 
