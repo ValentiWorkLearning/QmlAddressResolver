@@ -21,6 +21,8 @@ add_executable(${MAIN_TARGET}
     qml.qrc
     AddressModelHandler.hpp
     AddressModelHandler.cpp
+    AddressStorage.hpp
+    AddressStorage.cpp
 )
 
 target_compile_options(

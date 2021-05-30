@@ -3,6 +3,7 @@
 #include <QLoggingCategory>
 
 #include "AddressModelHandler.hpp"
+#include "AddressStorage.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
    AddressModelHandlerNs::AddressModelHandler::registerQmlType();
+   AddressStorageNs::AddressStorageModel::registerQmlType();
 
     const QUrl url(QStringLiteral("qrc:/qml_ui/main.qml"));
     QObject::connect(

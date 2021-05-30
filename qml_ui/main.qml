@@ -6,6 +6,7 @@ import QtQuick.Controls 2.5
 
 import Qt.labs.qmlmodels 1.0
 import AddressModelModule 1.0
+import address.storage 1.0
 
 ApplicationWindow {
     id: appRoot;
@@ -23,6 +24,11 @@ ApplicationWindow {
     AddressModelHandler
     {
         id:addressHandler;
+    }
+
+    AddressStorageModel
+    {
+        id: addressStorage;
     }
 
     ColumnLayout
@@ -150,8 +156,42 @@ ApplicationWindow {
                 ]
             }
 
+            Component
+            {
+                id:tableViewDelegate
+                Rectangle {
+                id: delegateTableItem;
+                implicitWidth: 100
+                implicitHeight: 50
+                radius: 4;
+                state: "default"
+
+                Text {
+                    text: textToDisplay
+                    anchors.centerIn: parent
+                }
+
+                states:[
+                    State {
+                        name: "default"
+                        PropertyChanges {
+                            target: delegateTableItem
+                            color: "#efebe9"
+                        }
+                    },
+                    State {
+                        name: "checked"
+                        PropertyChanges {
+                            target: delegateTableItem
+                            color:"#ffab91"
+                        }
+                    }
+                ]
+            }
+            }
+
             TableView{
-                id: addressStorage
+                id: addressStorageTableView
                 Layout.preferredWidth: appRoot.width * 0.2;
                 Layout.preferredHeight: appRoot.height * 0.6;
                 Layout.leftMargin: 10;
@@ -159,37 +199,30 @@ ApplicationWindow {
                 columnSpacing: 1
                 rowSpacing: 1
 
-                model: testTableModel;
+                model: addressStorage;
 
-                delegate: Rectangle {
-                    id: delegateTableItem;
-                    implicitWidth: 100
-                    implicitHeight: 50
-                    radius: 4;
-                    state: "default"
+                delegate:
+                    DelegateChooser{
 
-                    Text {
-                        text: display
-                        anchors.centerIn: parent
-                    }
-
-                    states:[
-                        State {
-                            name: "default"
-                            PropertyChanges {
-                                target: delegateTableItem
-                                color: "#efebe9"
-                            }
-                        },
-                        State {
-                            name: "checked"
-                            PropertyChanges {
-                                target: delegateTableItem
-                                color:"#ffab91"
+                        DelegateChoice
+                        {
+                            column: 0;
+                            delegate: Loader
+                            {
+                                sourceComponent: tableViewDelegate
+                                property string textToDisplay: address;
                             }
                         }
-                    ]
-                }
+                        DelegateChoice
+                        {
+                            column: 1;
+                            delegate: Loader
+                            {
+                                sourceComponent: tableViewDelegate
+                                property string textToDisplay: count;
+                            }
+                        }
+                    }
             }
         }
         Row{
@@ -213,6 +246,7 @@ ApplicationWindow {
                     if( addressHandler.isAddressValid())
                     {
                         let toAdd = addressHandler.getCurrentAddress();
+                        addressStorage.addAddress(toAdd);
                         console.log("Address is:", toAdd);
                     }
                 }
